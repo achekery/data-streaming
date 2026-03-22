@@ -18,17 +18,6 @@ The advantage of an Augmented AVL Interval Tree is its ability to prune search b
 
 ![Diagram of Pruning Logic](static/pruning-diagram.png)
 
-### 🛠 Getting Started
-
-![Python CI](https://github.com/achekery/data-streaming/actions/workflows/python-app.yml/badge.svg)
-
-This design requires **Python 3.11+**.
-
-To run the regression tests for this design:
-```bash
-cd dev && python solution.py
-```
-
 ## 2. Design Approaches
 
 ### Optimal Approaches for Batch Data (Static Intervals)
@@ -62,3 +51,16 @@ By implementing a **Sentinel Node Architecture** with a **Two-Down** AVL balanci
 
 ### Python Object-Model Tuning
 To reduce object-overhead due to the Python object-model, I implemented **Attribute Flattening**. After replacing packed collections (`self.interval[0]`) with discrete integers (`self.lo`, `self.hi`), I reduced constant factors in the hot execution path and achieved a **15% reduction** in benchmarks with static intervals.
+
+----
+
+## 🛠 Getting Started
+
+![Python CI](https://github.com/achekery/data-streaming/actions/workflows/python-app.yml/badge.svg)
+
+This design requires **Python 3.11+**.
+
+To run the regression tests for this design:
+```bash
+cd dev && python solution.py
+```
