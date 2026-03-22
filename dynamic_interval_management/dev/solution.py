@@ -360,4 +360,27 @@ class Solution1:
         return merged_intervals[:count_intervals]
 
 
-Solution = Solution3
+import json
+import sys
+
+def run_benchmarks():
+    """Simple test runner to verify all variants."""
+    test_cases = [
+        ([[1, 3], [2, 6], [8, 10], [15, 18]], [[1, 6], [8, 10], [15, 18]]),
+        ([[1, 4], [4, 5]], [[1, 5]]),
+        ([[1, 10], [2, 3], [4, 5], [6, 7], [8, 9]], [[1, 10]]),
+    ]
+    
+    variants = [Solution1(), Solution2(), Solution3()]
+    
+    for i, sol in enumerate(variants, 1):
+        print(f"--- Testing Variant {i} ---")
+        for intervals, expected in test_cases:
+            result = sol.merge(intervals)
+            # Ensure results are sorted for comparison
+            assert sorted([list(x) for x in result]) == sorted(expected)
+            print(f"Input: {intervals} -> Passed")
+        print(f"Variant {i} Verified Successfully!\n")
+
+if __name__ == "__main__":
+    run_benchmarks()
