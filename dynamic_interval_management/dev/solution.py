@@ -417,18 +417,23 @@ def benchmark_streaming():
 
         # --- Benchmark Solution 2 (Batch approach used for Streaming) ---
         def run_v2_streaming():
+            uut = Solution2()
             current_state = []
             for interval in raw_data:
                 current_state.append(interval)
-                Solution2().merge(current_state) # Must re-sort everything
+                uut.merge(current_state) # Must re-sort everything
         
-        t2 = timeit.timeit(run_v2_streaming, number=1)
+        t2 = timeit.timeit(lambda: run_v2_streaming(), number=1)
         results_v2.append(t2)
 
         # --- Benchmark Solution 3 (Tree approach) ---
         # Note: We simulate streaming by calling merge once 
         # because your merge() already iterates and inserts.
-        t3 = timeit.timeit(lambda: Solution3().merge(raw_data), number=1)
+        def run_v3_streaming():
+            uut = Solution3()
+            uut.merge(raw_data)
+
+        t3 = timeit.timeit(lambda: run_v3_streaming(), number=1)
         results_v3.append(t3)
         
         print(f"n={n} | Batch-Style: {t2:.4f}s | Tree-Style: {t3:.4f}s")
@@ -454,5 +459,9 @@ def benchmark_streaming():
     print("\n✅ Benchmark complete. Graph saved as 'streaming_performance.png'")
 
 if __name__ == "__main__":
+    # AVL Trees and Deep BSTs can hit the default limit (1000) during 
+    # heavy stress tests/rotations.
+    sys.setrecursionlimit(5000)
+    
     benchmark_static()
     benchmark_streaming()
